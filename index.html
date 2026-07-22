@@ -7,7 +7,9 @@
     <title>kailye_030</title>
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Segoe UI', sans-serif; }
-        .video-bg { position: absolute; right: 0; bottom: 0; min-width: 100%; min-height: 100%; z-index: -1; object-fit: cover; filter: brightness(0.5); }
+        
+        /* Зацикленный видеофон */
+        .video-bg { position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%; z-index: -1; object-fit: cover; filter: brightness(0.5); }
         
         /* Прелоадер */
         #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s ease; }
@@ -27,7 +29,7 @@
         .location-img { width: 100px; height: 100px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.3); cursor: pointer; transition: 0.5s; }
         .location-img:hover { transform: scale(1.15); filter: brightness(1.3); }
 
-        /* Панель регулировки громкости */
+        /* Ползунок громкости */
         .volume-container { position: fixed; bottom: 20px; right: 20px; z-index: 50; display: none; align-items: center; gap: 10px; background: rgba(0, 0, 0, 0.6); padding: 8px 15px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.15); backdrop-filter: blur(5px); }
         .volume-container span { color: #fff; font-size: 12px; letter-spacing: 1px; }
         .volume-slider { -webkit-appearance: none; appearance: none; width: 90px; height: 4px; background: rgba(255, 255, 255, 0.3); border-radius: 2px; outline: none; cursor: pointer; }
@@ -46,23 +48,27 @@
 </head>
 <body>
 
+    <!-- Прелоадер -->
     <div id="preloader">
         <div class="start-text">Shall we start this shit?</div>
         <button class="yes-btn" onclick="startSite()">YES</button>
     </div>
 
+    <!-- Аудио -->
     <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
 
-    <!-- Ползунок громкости (появляется после нажатия YES) -->
+    <!-- Ползунок громкости -->
     <div class="volume-container" id="volContainer">
         <span>VOL</span>
         <input type="range" min="0" max="1" step="0.01" value="0.5" class="volume-slider" id="volSlider" oninput="setVolume(this.value)">
     </div>
 
-    <video id="videoPlayer" autoplay muted playsinline class="video-bg">
-        <source src="intro.mp4" type="video/mp4">
+    <!-- Единый зацикленный видеофон (используем loop.mp4) -->
+    <video autoplay muted loop playsinline class="video-bg">
+        <source src="loop.mp4" type="video/mp4">
     </video>
 
+    <!-- Основной контент -->
     <div class="main-wrapper">
         <div class="card">
             <img src="avatar.jpg" class="avatar-placeholder" onclick="openModal('modalOverlay')">
@@ -94,11 +100,8 @@
     <script>
         const audio = document.getElementById('bgMusic');
         const preloader = document.getElementById('preloader');
-        const player = document.getElementById('videoPlayer');
         const volContainer = document.getElementById('volContainer');
-        const volSlider = document.getElementById('volSlider');
 
-        // Устанавливаем начальную громкость музыки на 50%
         audio.volume = 0.5;
 
         function startSite() {
@@ -108,26 +111,13 @@
             // Показываем ползунок громкости
             volContainer.style.display = 'flex';
 
-            if (audio) audio.play().catch(e => console.log(e));
-            if (player) {
-                player.play().catch(e => {
-                    player.muted = true;
-                    player.play();
-                });
+            if (audio) {
+                audio.play().catch(e => console.log("Ошибка аудио:", e));
             }
         }
 
-        // Функция изменения громкости ползунком
         function setVolume(value) {
             audio.volume = value;
-        }
-
-        if (player) {
-            player.onended = function() { 
-                player.src = "loop.mp4"; 
-                player.loop = true; 
-                player.play(); 
-            };
         }
 
         function openModal(id) { document.getElementById(id).classList.add('open'); }
