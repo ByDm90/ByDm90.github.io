@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kailye_030</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Segoe UI', sans-serif; }
+        .video-bg { position: absolute; right: 0; bottom: 0; min-width: 100%; min-height: 100%; z-index: -1; object-fit: cover; filter: brightness(0.5); }
+        
+        /* Прелоадер */
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s ease; }
+        .start-text { color: #fff; font-size: 24px; margin-bottom: 20px; letter-spacing: 2px; }
+        .yes-btn { padding: 10px 30px; background: transparent; border: 1px solid #fff; color: #fff; cursor: pointer; font-size: 18px; transition: 0.3s; }
+        .yes-btn:hover { background: #fff; color: #000; }
+
+        /* Карточка */
+        .main-wrapper { display: flex; justify-content: center; align-items: center; height: 100vh; position: relative; z-index: 1; }
+        .card { padding: 40px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; }
+        .avatar-placeholder { width: 130px; height: 130px; border-radius: 25px; border: 2px solid rgba(255, 255, 255, 0.2); cursor: pointer; transition: 0.4s; }
+        .avatar-placeholder:hover { transform: scale(1.1) rotate(360deg); }
+        .nickname { margin: 20px 0; color: #fff; font-size: 22px; font-weight: 700; letter-spacing: 4px; }
+        
+        /* Локация */
+        .location-title { color: white; font-size: 14px; margin-bottom: 10px; letter-spacing: 2px; opacity: 0.7; }
+        .location-img { width: 100px; height: 100px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.3); cursor: pointer; transition: 0.5s; }
+        .location-img:hover { transform: scale(1.15); filter: brightness(1.3); }
+
+        /* Модальные окна */
+        .modalOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); justify-content: center; align-items: center; z-index: 100; opacity: 0; transition: 0.3s; }
+        .modalOverlay.open { display: flex; opacity: 1; }
+        .modal-box { background: rgba(20, 20, 20, 0.95); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; width: 350px; max-height: 80vh; overflow-y: auto; padding: 25px; color: white; text-align: center; position: relative; }
+        .modal-close { position: absolute; top: 15px; right: 15px; cursor: pointer; background: none; border: none; color: white; font-size: 20px; }
+        .modal-video { width: 100px; margin-bottom: 15px; border-radius: 10px; }
+        .modal-title { margin: 0 0 15px 0; border-bottom: 1px solid #444; padding-bottom: 10px; }
+        .modal-text { font-size: 14px; color: #ccc; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="start-text">Shall we start this shit?</div>
+        <button class="yes-btn" onclick="startSite()">YES</button>
+    </div>
+
+    <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
+
+    <video id="videoPlayer" autoplay muted playsinline class="video-bg">
+        <source src="intro.mp4" type="video/mp4">
+    </video>
+
+    <div class="main-wrapper">
+        <div class="card">
+            <img src="avatar.jpg" class="avatar-placeholder" onclick="openModal('modalOverlay')">
+            <div class="nickname">ByDm90</div>
+            <div class="location-title">My location:</div>
+            <img src="location.jpg" class="location-img" onclick="openModal('modalOverlayLoc')">
+        </div>
+    </div>
+
+    <!-- Окно Инфо -->
+    <div id="modalOverlay" class="modalOverlay" onclick="closeModal(event, 'modalOverlay')">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal(null, 'modalOverlay')">×</button>
+            <video autoplay loop muted playsinline class="modal-video"><source src="lv_0_20260721014758.mp4" type="video/mp4"></video>
+            <h3 class="modal-title">INFORMATION:</h3>
+            <p class="modal-text">Received nudes<br>In depression<br>Goodbye Saveliy 🥀<br>My heart was broken 3 times 😭<br>I listen to Asteria, kets4eki, anarchist sanctuary, vyzer</p>
+        </div>
+    </div>
+
+    <!-- Окно Локация -->
+    <div id="modalOverlayLoc" class="modalOverlay" onclick="closeModal(event, 'modalOverlayLoc')">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal(null, 'modalOverlayLoc')">×</button>
+            <h3 class="modal-title">LOCATION:</h3>
+            <p class="modal-text">In the midst of the endless, silent, and icy Void floats a sovereign reality — Goryachka. It is a pocket paradise, completely cut off from the laws of earthly physics, time, and space. Goryachka is a boundless ocean with floating islands where eternal summer reigns, and the crystal-clear, azure water glows from within with a pleasant, living warmth.<br><br>The architect and absolute ruler of this world is the god ByDm90. Possessing the power of Aquaman, he tore this flourishing Eden from the primordial Nothingness by the sheer strength of his will. The body and mind of ByDm90 are inextricably linked with the ocean: water droplets can hover in mid-air at his snap, and the lagoon's temperature perfectly adapts to his mood. The god's main mission is to maintain the energy barrier of Goryachka. The freezing Void constantly presses from the outside, but the fiery hydro-energy of ByDm90 serves as an impenetrable shield, keeping this perfect, safe world hidden from outside eyes in absolute peace.</p>
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('bgMusic');
+        const preloader = document.getElementById('preloader');
+        const player = document.getElementById('videoPlayer');
+
+        function startSite() {
+            preloader.style.opacity = '0';
+            setTimeout(() => { preloader.style.display = 'none'; }, 800);
+            audio.play();
+        }
+
+        player.onended = function() { player.src = "loop.mp4"; player.loop = true; player.play(); };
+
+        function openModal(id) { document.getElementById(id).classList.add('open'); }
+        function closeModal(event, id) {
+            if (!event || event.target.id === id || event.target.classList.contains('modal-close')) {
+                document.getElementById(id).classList.remove('open');
+            }
+        }
+    </script>
+</body>
+</html>
