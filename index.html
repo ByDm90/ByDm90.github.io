@@ -66,12 +66,12 @@
         <input type="range" min="0" max="1" step="0.01" value="0.5" class="volume-slider" id="volSlider" oninput="setVolume(this.value)">
     </div>
 
-    <!-- Видеофон (сюда можно вставить URL прямой ссылки вместо loop.mp4, если нужно) -->
-    <video autoplay muted loop playsinline class="video-bg">
+    <!-- Видеофон -->
+    <video id="bgVideo" autoplay muted loop playsinline class="video-bg">
         <source src="loop.mp4" type="video/mp4">
     </video>
 
-    <!-- Основной контент (карточка строго по центру) -->
+    <!-- Основной контент -->
     <div class="main-wrapper">
         <div class="card">
             <img src="avatar.jpg" class="avatar-placeholder" onclick="openModal('modalOverlay')">
@@ -102,6 +102,7 @@
 
     <script>
         const audio = document.getElementById('bgMusic');
+        const video = document.getElementById('bgVideo');
         const preloader = document.getElementById('preloader');
         const volContainer = document.getElementById('volContainer');
 
@@ -112,8 +113,12 @@
             setTimeout(() => { preloader.style.display = 'none'; }, 800);
             volContainer.style.display = 'flex';
 
+            // Принудительный запуск музыки и видео по клику
             if (audio) {
                 audio.play().catch(e => console.log("Ошибка аудио:", e));
+            }
+            if (video) {
+                video.play().catch(e => console.log("Ошибка видео:", e));
             }
         }
 
