@@ -78,24 +78,37 @@
     </div>
 
     <script>
-        const audio = document.getElementById('bgMusic');
-        const preloader = document.getElementById('preloader');
-        const player = document.getElementById('videoPlayer');
+    const audio = document.getElementById('bgMusic');
+    const preloader = document.getElementById('preloader');
+    const player = document.getElementById('videoPlayer');
 
-        function startSite() {
-            preloader.style.opacity = '0';
-            setTimeout(() => { preloader.style.display = 'none'; }, 800);
-            audio.play();
+    function startSite() {
+        preloader.style.opacity = '0';
+        setTimeout(() => { preloader.style.display = 'none'; }, 800);
+        
+        // Включаем музыку и фоновое видео с обработкой ошибок
+        if (audio) {
+            audio.play().catch(e => console.log("Ошибка воспроизведения аудио:", e));
         }
-
-        player.onended = function() { player.src = "loop.mp4"; player.loop = true; player.play(); };
-
-        function openModal(id) { document.getElementById(id).classList.add('open'); }
-        function closeModal(event, id) {
-            if (!event || event.target.id === id || event.target.classList.contains('modal-close')) {
-                document.getElementById(id).classList.remove('open');
-            }
+        if (player) {
+            player.play().catch(e => console.log("Ошибка воспроизведения видео:", e));
         }
-    </script>
+    }
+
+    if (player) {
+        player.onended = function() { 
+            player.src = "loop.mp4"; 
+            player.loop = true; 
+            player.play(); 
+        };
+    }
+
+    function openModal(id) { document.getElementById(id).classList.add('open'); }
+    function closeModal(event, id) {
+        if (!event || event.target.id === id || event.target.classList.contains('modal-close')) {
+            document.getElementById(id).classList.remove('open');
+        }
+    }
+</script>
 </body>
 </html>
