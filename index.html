@@ -45,9 +45,9 @@
 
     <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
 
-    <video id="videoPlayer" autoplay muted playsinline class="video-bg">
-        <source src="intro.mp4" type="video/mp4">
-    </video>
+    <video id="videoPlayer" autoplay muted playsinline class="video-bg" onerror="console.log('Ошибка загрузки видео intro.mp4!')" oncanplay="console.log('Видео intro.mp4 готово к воспроизведению!')">
+    <source src="intro.mp4" type="video/mp4">
+</video>
 
     <div class="main-wrapper">
         <div class="card">
