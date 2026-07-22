@@ -7,22 +7,22 @@
     <title>ByDm90</title>
     <style>
         * { box-sizing: border-box; }
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Segoe UI', sans-serif; }
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; background: #000; font-family: 'Segoe UI', sans-serif; }
         
-        /* Зацикленный видеофон */
-       
+        /* Зацикленный видеофон по URL */
+        <!-- Зацикленный видеофон по ссылке (URL) -->
 <video autoplay muted loop playsinline class="video-bg">
     <source src="https://www.image2url.com/r2/default/videos/1784733309420-ea934ec9-3bbd-4c1e-9016-9f94d4057287.mp4" type="video/mp4">
-</video>
+</video> { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -1; filter: brightness(0.5); }
         
         /* Прелоадер */
-        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s ease; }
-        .start-text { color: #fff; font-size: 24px; margin-bottom: 20px; letter-spacing: 2px; }
-        .yes-btn { padding: 10px 30px; background: transparent; border: 1px solid #fff; color: #fff; cursor: pointer; font-size: 18px; transition: 0.3s; }
+        #preloader { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000000; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s ease; }
+        .start-text { color: #fff; font-size: 24px; margin-bottom: 20px; letter-spacing: 2px; text-align: center; }
+        .yes-btn { padding: 12px 35px; background: transparent; border: 1px solid #fff; color: #fff; cursor: pointer; font-size: 18px; transition: 0.3s; border-radius: 8px; }
         .yes-btn:hover { background: #fff; color: #000; }
 
         /* Центрирование и карточка */
-        .main-wrapper { display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw; position: absolute; top: 0; left: 0; z-index: 1; pointer-events: none; }
+        .main-wrapper { display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw; position: fixed; top: 0; left: 0; z-index: 10; pointer-events: none; }
         .card { pointer-events: auto; padding: 35px 50px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: center; width: 340px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
         
         .avatar-placeholder { width: 120px; height: 120px; border-radius: 25px; border: 2px solid rgba(255, 255, 255, 0.2); cursor: pointer; transition: 0.4s; object-fit: cover; display: block; margin: 0 auto; }
@@ -69,9 +69,9 @@
         <input type="range" min="0" max="1" step="0.01" value="0.5" class="volume-slider" id="volSlider" oninput="setVolume(this.value)">
     </div>
 
-    <!-- Видеофон -->
+    <!-- Видеофон по URL -->
     <video id="bgVideo" autoplay muted loop playsinline class="video-bg">
-        <source src="loop.mp4" type="video/mp4">
+        <source src="ТВОЯ_ССЫЛКА_НА_ВИДЕО_ЗДЕСЬ.mp4" type="video/mp4">
     </video>
 
     <!-- Основной контент -->
@@ -113,10 +113,12 @@
 
         function startSite() {
             preloader.style.opacity = '0';
-            setTimeout(() => { preloader.style.display = 'none'; }, 800);
+            setTimeout(() => { 
+                preloader.style.display = 'none'; 
+            }, 800);
+            
             volContainer.style.display = 'flex';
 
-            // Принудительный запуск музыки и видео по клику
             if (audio) {
                 audio.play().catch(e => console.log("Ошибка аудио:", e));
             }
